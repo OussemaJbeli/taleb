@@ -46,10 +46,3 @@
   8. Run vite server 
   
       ``` npm run dev ```
-    
-
-## Login activity
-![login-activity](https://user-images.githubusercontent.com/59258929/195477886-c80ca296-85c8-4425-befb-42411f85ec11.png)
-
-## Translation
-![translation-index](https://user-images.githubusercontent.com/59258929/195477960-4b329b2c-6ab0-4b87-802c-f38934535c75.png)
