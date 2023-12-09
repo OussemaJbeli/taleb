@@ -30,10 +30,27 @@ class showVidoeController extends Controller
         $vue_video->id_video = $id;
         $vue_video->save();
 
-        $historiques = new Historiques();
-        $historiques->id_user = Auth::user()->id;
-        $historiques->id_video = $id;
+        $historiques = Historiques::where('id_video', $id)->first();
+
+        if ($historiques) {
+
+        $historiques->updated_at = now();
+
+        $historiques->created_at = now();
+
         $historiques->save();
+
+        } else {
+
+        $historiques = new Historiques();
+
+        $historiques->id_user = Auth::user()->id;
+
+        $historiques->id_video = $id;
+
+        $historiques->save();
+
+        }
 
         $chanel_subscribe = Videos::where('videos.id', $id)
         ->join('chanels as video_chanels','video_chanels.id','=','videos.id_chanel')
@@ -80,6 +97,7 @@ class showVidoeController extends Controller
                 DB::raw('COALESCE(count(views.id), 0) as vuews_video')
             )
             ->where('public','عامة')
+            ->where('videos.id','!=',$id)
             ->join('chanels as video_chanels','video_chanels.id','=','videos.id_chanel')
             ->leftJoin('subscribes', 'subscribes.id_chanel', '=', 'video_chanels.id') 
             ->leftJoin('views', 'views.id_video', '=', 'videos.id')  
@@ -236,6 +254,7 @@ class showVidoeController extends Controller
                 DB::raw('COALESCE(count(views.id), 0) as vuews_video')
             )
             ->where('public','عامة')
+            ->where('videos.id','!=',$id)
             ->join('chanels as video_chanels','video_chanels.id','=','videos.id_chanel')
             ->leftJoin('views', 'views.id_video', '=', 'videos.id')  
             ->orderByRaw('RAND()')
